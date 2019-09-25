@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Validation.Models;
 
@@ -9,22 +9,32 @@ namespace Validation.Controllers
     {
         public ActionResult Index()
         {
-            var consoles = new ModelWrapper();
-            consoles.Deletes = new List<Delete>() { new Delete()};
-            consoles.Inserts = new List<Insert>() { new Insert() };
-            consoles.Updates = new List<Update>() { new Update() };
-            try
+            var consoles = new List<GameConsole>();
+            consoles.Add(new Delete());
+            consoles.Add(new Insert());
+            consoles.Add(new Update());
+
+            ValidateListModelState(consoles);
+
+            return View(consoles);
+        }
+
+        private void ValidateListModelState<T>(List<T> consoles)
+        {
+            var dictinory = new ModelStateDictionary();
+
+            for (int entityPosition = 0; entityPosition < consoles.Count; entityPosition++)
             {
+                TryValidateModel(consoles[entityPosition]);
 
-                TryValidateModel(consoles);
+                for (int i = 0; i < ModelState.Keys.Count; i++)
+                    dictinory.Add($"[{entityPosition}].{ModelState.Keys.ToList()[i]}", ModelState.Values.ToList()[i]);
+
+                ModelState.Clear();
             }
-            catch(Exception e)
-            {
 
-            }
-
-            var state = ModelState.IsValid;
-            return View();
+            for (int i = 0; i < dictinory.Keys.Count; i++)
+                ModelState.Add(dictinory.Keys.ToList()[i], dictinory.Values.ToList()[i]);
         }
 
         public ActionResult About()

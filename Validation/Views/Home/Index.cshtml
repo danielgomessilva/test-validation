@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Validation.Models
+@model  List<GameConsole>
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -7,6 +9,37 @@
     <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
     <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
 </div>
+@if (!ViewData.ModelState.IsValid)
+{
+    <div>There are some errors</div>
+}
+<form>
+
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        <div class="form-group">
+            @Html.LabelFor(x => x[i].Id)
+            @Html.EditorFor(x => x[i].Id)
+            @Html.ValidationMessageFor(x => x[i].Id)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x[i].Name)
+            @Html.EditorFor(x => x[i].Name)
+            @Html.ValidationMessageFor(x => x[i].Name)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x[i].IPAddress)
+            @Html.EditorFor(x => x[i].IPAddress)
+            @Html.ValidationMessageFor(x => x[i].IPAddress)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x[i].PlatformName)
+            @Html.EditorFor(x => x[i].PlatformName)
+            @Html.ValidationMessageFor(x => x[i].PlatformName)
+        </div>
+    }
+    <input type="submit" />
+</form>
 
 <div class="row">
     <div class="col-md-4">
