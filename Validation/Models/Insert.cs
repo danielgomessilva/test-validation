@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Validation.Models
 {
@@ -14,5 +15,8 @@ namespace Validation.Models
         public override string IPAddress { get; set; }
         [Required]
         public override string PlatformName { get; set; }
+
+        public override Dictionary<string, string> State
+            => new Dictionary<string, string>();
     }
 }

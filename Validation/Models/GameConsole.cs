@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace Validation.Models
 {
@@ -23,6 +26,8 @@ namespace Validation.Models
        public virtual bool? ReserveIP { get; set; }
                
        public virtual bool? Delete { get; set; }
+
+       public abstract Dictionary<string,string> State { get; }
 
     }
 }

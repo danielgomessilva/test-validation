@@ -19,7 +19,7 @@ namespace Validation.Controllers
             return View(consoles);
         }
 
-        private void ValidateListModelState<T>(List<T> consoles)
+        private void ValidateListModelState<T>(List<T> consoles) where T : GameConsole
         {
             var dictinory = new ModelStateDictionary();
 
@@ -29,6 +29,13 @@ namespace Validation.Controllers
 
                 for (int i = 0; i < ModelState.Keys.Count; i++)
                     dictinory.Add($"[{entityPosition}].{ModelState.Keys.ToList()[i]}", ModelState.Values.ToList()[i]);
+
+                var entityStateDictionary = consoles[entityPosition].State;
+
+                entityStateDictionary.ToList().ForEach(x =>
+                {
+                    dictinory.AddModelError($"[{entityPosition}].{x.Key}", x.Value);
+                });
 
                 ModelState.Clear();
             }

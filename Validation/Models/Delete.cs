@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Validation.Models
 {
@@ -12,5 +13,8 @@ namespace Validation.Models
 
         [ShouldNotBeNullableIfThisFieldIsNullable("Id")]
         public override string Name { get; set; }
+
+        public override Dictionary<string,string> State =>
+             new Dictionary<string, string>();
     }
 }
